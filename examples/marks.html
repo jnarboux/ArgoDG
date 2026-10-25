@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>ArgoDG</title>
+    <script src="../dist/DG.js"></script>
+  </head>
+  <body>
+    <div id="mycanvas"></div>
+    
+    <script>
+      DG.setup("mycanvas", { width: 500, height: 500, border: "1px solid #ccc"}, 0, 100, 0, 100);
+      // isosceles triangle ABC with its altitude CH
+      const A = DG.point(20, 25).label("A");
+      const B = DG.point(80, 25).label("B");
+      const C = DG.pointFun((a, b) => [(a.x() + b.x()) / 2, 80], [A, B]).label("C");
+      const H = DG.midpoint(A, B).label("H").color("red");
+      DG.segment(A, B); DG.segment(B, C); DG.segment(C, A); DG.segment(C, H);
+      DG.rightAngleMark(C, H, B);
+      DG.segmentMark(A, H, 1); DG.segmentMark(H, B, 1);
+      DG.segmentMark(C, A, 2); DG.segmentMark(C, B, 2);
+      DG.angleMark(B, A, C, 18, 1); DG.angleMark(C, B, A, 18, 1);
+      DG.angleMark(A, C, H, 22, 2); DG.angleMark(H, C, B, 22, 2);
+      // a parallel to AB through C
+      const D = DG.pointFun((a, b, c) => [c.x() + b.x() - a.x(), c.y() + b.y() - a.y()], [A, B, C]).hide();
+      DG.line(C, D);
+      DG.parallelMark(A, B, 1); DG.parallelMark(C, D, 1);
+    </script>
+  </body>
+</html>

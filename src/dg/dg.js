@@ -1,4 +1,5 @@
 import { DGGlider, DGPoint, DGLine, DGCircle, DGSegment, DGRay, DGArc, DGConvexArc, DGClone, DGRandomPoint, DGRandomPointOnCircline, DGCircleCenterPoint, DGPointFun, DGConst, DGNum, DGIntersectLL, DGIntersectLC, DGIntersectCC, DGText, DGIf, DGPoincareDiscLine, DGPoincareDiscCircle, DGPoincareDiscCircleR, DGPoincareHalfPlaneLine, DGPoincareHalfPlaneCircle, DGPoincareHalfPlaneCircleR, DGVector, DGVectorXY, DGVectorFun, DGPolygon, DGOrientedAngle, DGConvexAngle, Vector2, REDRAW, NO_REDRAW } from './objects.js';
+import { DGRightAngleMark, DGSegmentMark, DGParallelMark, DGAngleMark } from './marks.js';
 import { GraphicsView } from './graphics_view.js';
 import { Construction } from './construction.js';
 import { AnimationButtons } from './animation_buttons.js';
@@ -385,4 +386,32 @@ export function glider(A, B, t, clamp, redraw) {
     const p = new DGGlider(A, B, t, clamp);
     addObject(p, redraw);
     return p;
+}
+
+// square marking the right angle AOB (size in pixels)
+export function rightAngleMark(A, O, B, size, redraw) {
+    const m = new DGRightAngleMark(A, O, B, size);
+    addObject(m, redraw);
+    return m;
+}
+
+// n ticks across segment AB marking congruent segments
+export function segmentMark(A, B, n, size, redraw) {
+    const m = new DGSegmentMark(A, B, n, size);
+    addObject(m, redraw);
+    return m;
+}
+
+// n chevrons on segment AB, pointing towards B, marking parallel lines
+export function parallelMark(A, B, n, size, redraw) {
+    const m = new DGParallelMark(A, B, n, size);
+    addObject(m, redraw);
+    return m;
+}
+
+// n arcs of radius r (in pixels) marking the convex angle AOB
+export function angleMark(A, O, B, r, n, redraw) {
+    const m = new DGAngleMark(A, O, B, r, n);
+    addObject(m, redraw);
+    return m;
 }

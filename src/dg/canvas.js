@@ -352,6 +352,24 @@ class Canvas {
         ctx.restore();
     }
 
+    // open path through the given points
+    polyline(points, color, width, dash) {
+        if (points.length < 2)
+            return;
+        color = color || this._defaultColor;
+        width = width || this._defaultWidth;
+        dash = dash || this._defaultDash;
+        const ctx = this.context();
+        ctx.beginPath();
+        ctx.moveTo(points[0][0], points[0][1]);
+        for (let i = 1; i < points.length; i++)
+            ctx.lineTo(points[i][0], points[i][1]);
+        ctx.lineWidth = width;
+        ctx.strokeStyle = color;
+        ctx.setLineDash(dash);
+        ctx.stroke();
+    }
+
     polygon(points, borderColor, width, dash, fillColor) {
         if (points.length == 0)
             return;
