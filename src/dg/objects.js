@@ -957,6 +957,7 @@ class DGPointFun extends DGPoint {
         
         const args = this._dependencies.map(obj => obj.funArg());
         const c = this._fun(...args);
+        if (c === null || c === undefined) { this._valid = false; return; }
         if (c instanceof CP1)
             this._coords = c;
         else if (Array.isArray(c))
@@ -2314,7 +2315,39 @@ class DGPoincareHalfPlaneCircle extends DGPoincareHalfPlaneCircleR {
 }
 
 
+// -----------------------------------------------------------------------------
+// glider: a draggable point constrained to the segment (or line) AB,
+// stored by its affine parameter t, so it follows A and B when they move
+// -----------------------------------------------------------------------------
+class DGGlider extends DGPoint {
+    constructor(A, B, t, clamp) {
+        super(0, 0);
+        this._A = A; this._B = B; this._t = t; this._clamp = clamp;
+        A.addDependent(this); B.addDependent(this);
+        this.recalcMe();
+    }
+    type() { return "glider"; }
+    recalcMe() {
+        this._valid = this._A.valid() && this._B.valid();
+        if (!this._valid) return;
+        const ax = this._A.x(), ay = this._A.y(), bx = this._B.x(), by = this._B.y();
+        this._coords = CP1.of_xy(ax + this._t * (bx - ax), ay + this._t * (by - ay));
+    }
+    moveTo(x, y, redraw) {
+        const ax = this._A.x(), ay = this._A.y(), bx = this._B.x(), by = this._B.y();
+        const dx = bx - ax, dy = by - ay, n = dx * dx + dy * dy;
+        if (n < 1e-12) return false;
+        let t = ((x - ax) * dx + (y - ay) * dy) / n;
+        if (this._clamp) t = Math.min(this._clamp[1], Math.max(this._clamp[0], t));
+        this._t = t;
+        this.recalc();
+        if (redraw == undefined || redraw) this.fireChangeEvent();
+        return true;
+    }
+}
+
 export {
+    DGGlider,
     DGObject,
     DGPoint,
     DGLine,

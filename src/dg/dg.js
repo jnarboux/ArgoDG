@@ -1,4 +1,4 @@
-import { DGPoint, DGLine, DGCircle, DGSegment, DGRay, DGArc, DGConvexArc, DGClone, DGRandomPoint, DGRandomPointOnCircline, DGCircleCenterPoint, DGPointFun, DGConst, DGNum, DGIntersectLL, DGIntersectLC, DGIntersectCC, DGText, DGIf, DGPoincareDiscLine, DGPoincareDiscCircle, DGPoincareDiscCircleR, DGPoincareHalfPlaneLine, DGPoincareHalfPlaneCircle, DGPoincareHalfPlaneCircleR, DGVector, DGVectorXY, DGVectorFun, DGPolygon, DGOrientedAngle, DGConvexAngle, Vector2, REDRAW, NO_REDRAW } from './objects.js';
+import { DGGlider, DGPoint, DGLine, DGCircle, DGSegment, DGRay, DGArc, DGConvexArc, DGClone, DGRandomPoint, DGRandomPointOnCircline, DGCircleCenterPoint, DGPointFun, DGConst, DGNum, DGIntersectLL, DGIntersectLC, DGIntersectCC, DGText, DGIf, DGPoincareDiscLine, DGPoincareDiscCircle, DGPoincareDiscCircleR, DGPoincareHalfPlaneLine, DGPoincareHalfPlaneCircle, DGPoincareHalfPlaneCircleR, DGVector, DGVectorXY, DGVectorFun, DGPolygon, DGOrientedAngle, DGConvexAngle, Vector2, REDRAW, NO_REDRAW } from './objects.js';
 import { GraphicsView } from './graphics_view.js';
 import { Construction } from './construction.js';
 import { AnimationButtons } from './animation_buttons.js';
@@ -380,3 +380,9 @@ export function between(A, X, B) {
 }
 
 export { Vector2 };
+
+export function glider(A, B, t, clamp, redraw) {
+    const p = new DGGlider(A, B, t, clamp);
+    addObject(p, redraw);
+    return p;
+}
